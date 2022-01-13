@@ -116,8 +116,9 @@ ServiceCenter由User和Register模块的接口声明文件构成，该声明为�
 在接口声明文件内，需要用CCServiceAPI宏来进行服务接口的声明
 ```
 CCServiceAPI(returnType, ServiceClassName, ServiceMethodName)
+//比如要对 RegisterService 内的 registerWithUsername:(NSString *)username password:(NSString *)password进行声明
+//returnType 为 registerWithUsername
 ```
-
 
 ##### RegisterServiceInterface.h
 
