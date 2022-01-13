@@ -1,0 +1,10 @@
+use_frameworks!
+
+platform :ios, '10.0'
+
+target 'CCServiceExample' do
+pod 'CCService'
+pod 'ServiceCenter', :path=>'../ServiceCenter'
+pod 'Register', :path=>'../Register'
+pod 'User', :path=>'../User'
+end

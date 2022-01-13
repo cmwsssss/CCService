@@ -1,0 +1,34 @@
+PODS:
+  - CCService (1.0.0)
+  - Register (1.0.0):
+    - ServiceCenter
+  - ServiceCenter (1.0.0):
+    - CCService
+  - User (1.0.0):
+    - ServiceCenter
+
+DEPENDENCIES:
+  - CCService (from `../../`)
+  - Register (from `../Register`)
+  - ServiceCenter (from `../ServiceCenter`)
+  - User (from `../User`)
+
+EXTERNAL SOURCES:
+  CCService:
+    :path: "../../"
+  Register:
+    :path: "../Register"
+  ServiceCenter:
+    :path: "../ServiceCenter"
+  User:
+    :path: "../User"
+
+SPEC CHECKSUMS:
+  CCService: 807fc941eccc1749beb73e23c9b3304669d80c4b
+  Register: 6c0290a8ade97babbb9eb7c1361f46a0cc4b6439
+  ServiceCenter: 48dc03025290788dc2c14b1eeafbf33e13b192d9
+  User: 730e048325d60756e902a883db04c54a390e391f
+
+PODFILE CHECKSUM: 94ca4de00c2dcc2a235805769ebd9c82a0d5b7b0
+
+COCOAPODS: 1.11.2
