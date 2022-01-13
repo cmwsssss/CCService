@@ -116,14 +116,19 @@ ServiceCenter由User和Register模块的接口声明文件构成，该声明为�
 在接口声明文件内，需要用CCServiceAPI宏来进行服务接口的声明
 ```
 CCServiceAPI(returnType, ServiceClassName, ServiceMethodName)
-//比如要对 RegisterService 内的 registerWithUsername:(NSString *)username password:(NSString *)password 进行声明
-//returnType 为 registerWithUsername方法的返回值void
-//ServiceClassName 为 RegisterService
-//ServiceMethodName 为 registerWithUsername的完整方法声明 registerWithUsername:(NSString *)username password:(NSString *)password
-//所以最终该服务应该被声明为
+```
+比如要对 RegisterService 内的 registerWithUsername:(NSString *)username password:(NSString *)password 进行声明
+
+* returnType 为 registerWithUsername 方法的返回值 void
+
+* ServiceClassName 为 RegisterService
+
+* ServiceMethodName 为 registerWithUsername 的完整方法声明 registerWithUsername:(NSString *)username password:(NSString *)password
+
+所以最终该服务应该被声明为
+```
 CCServiceAPI(void, RegisterService, registerWithUsername:(NSString *)username password:(NSString *)password)
 ```
-
 ##### RegisterServiceInterface.h
 对RegisterService的服务进行声明
 ```
@@ -146,6 +151,16 @@ CCServiceAPI(UIViewController*, UserService, getUserViewController)
 
 @end
 ```
+
+#### 3. 配置podspec
+因为Register模块和User模块都需要相互进行服务调用，所以需要配置它们的podspec文件，将其依赖于ServiceCenter模块
+
+在podspec文件内加上这一行
+```
+spec.dependency "ServiceCenter"
+```
+
+ServiceCenter则
 
 
 
