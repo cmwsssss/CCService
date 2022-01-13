@@ -160,7 +160,31 @@ CCServiceAPI(UIViewController*, UserService, getUserViewController)
 spec.dependency "ServiceCenter"
 ```
 
-ServiceCenter则
+ServiceCenter则需要依赖于CCService工具，则需要配置它的podspec文件，将其依赖于CCService模块
+
+在podspec文件内加上这一行
+```
+spec.dependency "CCService"
+```
+
+#### 4. 配置主工程的podfile
+现在组件的podspec都配置好了，接下来要把组件组合到主工程
+```
+target 'CCServiceExample' do
+pod 'CCService'
+pod 'ServiceCenter', :path=>'../ServiceCenter'
+pod 'Register', :path=>'../Register'
+pod 'User', :path=>'../User'
+end
+```
+
+#### 5.调用
+最后是服务的调用，调用非常简单，比如现在要调用RegisterService下的getRegisterViewController方法
+```
+UIViewController *registerVC = [(id <RegisterServiceInterface>)[CCService anyService] RegisterService_getRegisterViewController];
+```
+首先编译器会帮助检查，确保调用正确，其次方法的调用很清晰，调用哪个服务下的哪个方法一目了然，不会出现服务多了以后不同的服务category重名等等问题
+
 
 
 
