@@ -24,7 +24,7 @@ RegisterService_register
 
 ### 环境要求
 
-CCService支持 iOS 13 以上
+CCService支持 iOS 6 以上
 
 ### 安装
 
@@ -46,6 +46,103 @@ ServiceCenter是服务中心模块，这个模块只有protocol文件，所有�
 <img width="625" alt="截屏2022-01-13 上午8 38 31" src="https://user-images.githubusercontent.com/16182417/149245735-9a016d5e-7259-4a2b-9ff4-94ced1cb71b8.png">
 
 这张图可以清晰的看出，有调用需求的组件模块（ModuleA, ModuleB....）依赖于服务中心模块（ServiceCenter），服务中心模块依赖于CCService模块
+
+这个架构是可变的，比如服务中心模块可以和CCService集成为一个模块，或者可以声明多个服务中心模块（每个组件都有自己对外的服务中心，这样结构会和CTMediator比较类似）
+
+### 实践
+通过对CCServiceExample工程进行解析来进行CCService组件间通信的实践
+
+#### 1. 工程结构：
+我们的工程由Register，User，CCServiceExample（主模块）三个模块构成
+
+其中Register模块下的RegisterService类提供了该模块对外部接口的具体实现
+
+```
+@interface RegisterService : NSObject
+
+- (void)registerWithUsername:(NSString *)username password:(NSString *)password;
+- (UIViewController *)getRegisterViewController;
+- (void)unRegisterUser;
+
+@end
+
+@implementation RegisterService
+
+- (UIViewController *)getRegisterViewController {
+    RegisterViewController *vc = [[RegisterViewController alloc] init];
+    return vc;
+}
+
+- (void)registerWithUsername:(NSString *)username password:(NSString *)password {
+    NSLog(@"%@ (%@, %@) ", NSStringFromSelector(_cmd), username, password);
+}
+
+- (void)unRegisterUser {
+    NSLog(@"%@",NSStringFromSelector(_cmd));
+}
+
+@end
+```
+
+User模块下的UserService类提供了该模块对外部接口的具体实现
+```
+@interface UserService : NSObject
+
+- (BOOL)checkEmailExsited:(NSString *)email;
+- (UIViewController *)getUserViewController;
+
+@end
+
+@implementation UserService
+
+- (BOOL)checkEmailExsited:(NSString *)email {
+    NSLog(@"%@ (%@)",NSStringFromSelector(_cmd), email);
+    return YES;
+}
+
+- (UIViewController *)getUserViewController {
+    UserViewController *vc = [[UserViewController alloc] init];
+    return vc;
+}
+
+
+@end
+```
+
+#### 2. 构建ServiceCenter
+ServiceCenter由User和Register模块的接口声明文件构成，该声明为协议的形式
+
+##### CCServiceAPI宏
+在接口声明文件内，需要用CCServiceAPI宏来进行服务接口的声明
+```
+CCServiceAPI(returnType, ServiceClassName, ServiceMethodName)
+```
+
+
+##### RegisterServiceInterface.h
+
+```
+@protocol RegisterServiceInterface <NSObject>
+
+CCServiceAPI(void, RegisterService, registerWithUsername:(NSString *)username password:(NSString *)password)
+CCServiceAPI(UIViewController*, RegisterService, getRegisterViewController)
+CCServiceAPI(void, RegisterService, unRegisterUser)
+
+@end
+```
+
+##### UserServiceInterface.h
+```
+@protocol UserServiceInterface <NSObject>
+
+CCServiceAPI(BOOL, UserService, checkEmailExsited:(NSString *)email)
+CCServiceAPI(UIViewController*, UserService, getUserViewController)
+
+@end
+```
+
+
+
 
 
 
