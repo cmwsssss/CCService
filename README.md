@@ -33,7 +33,7 @@ pod 'CCService'
 ### 角色构成
 
 #### 1. CCService
-CCService是基础工具模块，所有服务的调用都要通过他进行
+CCService是基础工具模块，所有服务都要由它来进行调用
 
 #### 2. ServiceCenter
 ServiceCenter是服务中心模块，这个模块只有protocol文件，所有的模块的对外接口都需要在这个模块的protocol文件里声明，该模块依赖于CCService模块
