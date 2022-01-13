@@ -116,12 +116,16 @@ ServiceCenter由User和Register模块的接口声明文件构成，该声明为�
 在接口声明文件内，需要用CCServiceAPI宏来进行服务接口的声明
 ```
 CCServiceAPI(returnType, ServiceClassName, ServiceMethodName)
-//比如要对 RegisterService 内的 registerWithUsername:(NSString *)username password:(NSString *)password进行声明
-//returnType 为 registerWithUsername
+//比如要对 RegisterService 内的 registerWithUsername:(NSString *)username password:(NSString *)password 进行声明
+//returnType 为 registerWithUsername方法的返回值void
+//ServiceClassName 为 RegisterService
+//ServiceMethodName 为 registerWithUsername的完整方法声明 registerWithUsername:(NSString *)username password:(NSString *)password
+//所以最终该服务应该被声明为
+CCServiceAPI(void, RegisterService, registerWithUsername:(NSString *)username password:(NSString *)password)
 ```
 
 ##### RegisterServiceInterface.h
-
+对RegisterService的服务进行声明
 ```
 @protocol RegisterServiceInterface <NSObject>
 
@@ -133,6 +137,7 @@ CCServiceAPI(void, RegisterService, unRegisterUser)
 ```
 
 ##### UserServiceInterface.h
+对UserService的服务进行声明
 ```
 @protocol UserServiceInterface <NSObject>
 
